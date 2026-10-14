@@ -1,7 +1,8 @@
+
 #ifndef HASH_TABLE_H
 #define HASH_TABLE_H
 
-#define HASH_SIZE 10
+#define HASH_SIZE 100
 
 struct HashTable
 {

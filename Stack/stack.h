@@ -1,3 +1,4 @@
+
 #ifndef STACK_H
 #define STACK_H
 
@@ -5,6 +6,7 @@
 
 struct Stack
 {
+    int investigationId[MAX_STACK];
     int caseId[MAX_STACK];
     char activity[MAX_STACK][100];
     int top;
@@ -13,7 +15,14 @@ struct Stack
 void initializeStack(struct Stack* s);
 int isStackEmpty(struct Stack* s);
 int isStackFull(struct Stack* s);
-void pushActivity(struct Stack* s, int caseId, char activity[]);
+
+void pushActivity(
+    struct Stack* s,
+    int investigationId,
+    int caseId,
+    const char activity[]
+);
+
 void popActivity(struct Stack* s);
 void displayHistory(struct Stack* s);
 

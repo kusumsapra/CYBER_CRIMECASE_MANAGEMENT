@@ -1,46 +1,69 @@
+
 #include <stdio.h>
 #include <string.h>
 #include "stack.h"
 
 void initializeStack(struct Stack* s)
 {
-    s->top = -1;
+    if (s != NULL)
+        s->top = -1;
 }
 
 int isStackEmpty(struct Stack* s)
 {
-    if (s->top == -1)
-    {
-        return 1;
-    }
-
-    return 0;
+    return s == NULL || s->top == -1;
 }
 
 int isStackFull(struct Stack* s)
 {
-    if (s->top == MAX_STACK - 1)
-    {
-        return 1;
-    }
-
-    return 0;
+    return s != NULL && s->top == MAX_STACK - 1;
 }
 
-void pushActivity(struct Stack* s, int caseId, char activity[])
+void pushActivity(
+    struct Stack* s,
+    int investigationId,
+    int caseId,
+    const char activity[]
+)
 {
+    int i;
+
+    if (s == NULL || activity == NULL)
+        return;
+
+    /*
+       Keep the newest MAX_STACK activities in memory.
+       Older records remain stored in MySQL.
+    */
     if (isStackFull(s))
     {
-        printf("\nInvestigation history is full!\n");
-        return;
+        for (i = 1; i <= s->top; i++)
+        {
+            s->investigationId[i - 1] = s->investigationId[i];
+            s->caseId[i - 1] = s->caseId[i];
+
+            snprintf(
+                s->activity[i - 1],
+                sizeof(s->activity[i - 1]),
+                "%s",
+                s->activity[i]
+            );
+        }
+
+        s->top--;
     }
 
     s->top++;
 
+    s->investigationId[s->top] = investigationId;
     s->caseId[s->top] = caseId;
-    strcpy(s->activity[s->top], activity);
 
-    printf("\nInvestigation activity added successfully.\n");
+    snprintf(
+        s->activity[s->top],
+        sizeof(s->activity[s->top]),
+        "%s",
+        activity
+    );
 }
 
 void popActivity(struct Stack* s)
@@ -51,9 +74,13 @@ void popActivity(struct Stack* s)
         return;
     }
 
-    printf("\nRemoving latest activity:\n");
-    printf("Case ID  : %d\n", s->caseId[s->top]);
-    printf("Activity : %s\n", s->activity[s->top]);
+    printf("\nLatest activity removed:\n");
+    printf("Investigation ID : %d\n",
+           s->investigationId[s->top]);
+    printf("Case ID          : %d\n",
+           s->caseId[s->top]);
+    printf("Activity         : %s\n",
+           s->activity[s->top]);
 
     s->top--;
 
@@ -66,15 +93,21 @@ void displayHistory(struct Stack* s)
 
     if (isStackEmpty(s))
     {
-        printf("\nNo investigation history available.\n");
+        printf("\nNo investigation history available in memory.\n");
         return;
     }
 
-    printf("\n===== INVESTIGATION HISTORY =====\n");
+    printf("\n===== INVESTIGATION STACK (NEWEST FIRST) =====\n");
 
     for (i = s->top; i >= 0; i--)
     {
-        printf("\nCase ID  : %d", s->caseId[i]);
-        printf("\nActivity : %s\n", s->activity[i]);
+        printf("\nInvestigation ID : %d",
+               s->investigationId[i]);
+
+        printf("\nCase ID          : %d",
+               s->caseId[i]);
+
+        printf("\nActivity         : %s\n",
+               s->activity[i]);
     }
 }

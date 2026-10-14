@@ -1,17 +1,24 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "linked_list.h"
 
-void addCase(struct Node** head, struct Case c)
+int addCase(struct Node** head, struct Case c)
 {
     struct Node* newNode;
+    struct Node* temp;
+
+    if (head == NULL)
+    {
+        return 0;
+    }
 
     newNode = (struct Node*)malloc(sizeof(struct Node));
 
     if (newNode == NULL)
     {
-        printf("Memory allocation failed!\n");
-        return;
+        printf("\nMemory allocation failed!\n");
+        return 0;
     }
 
     newNode->data = c;
@@ -23,7 +30,7 @@ void addCase(struct Node** head, struct Case c)
     }
     else
     {
-        struct Node* temp = *head;
+        temp = *head;
 
         while (temp->next != NULL)
         {
@@ -33,7 +40,7 @@ void addCase(struct Node** head, struct Case c)
         temp->next = newNode;
     }
 
-    printf("Case added successfully!\n");
+    return 1;
 }
 
 void displayCases(struct Node* head)
@@ -80,21 +87,22 @@ struct Node* searchCase(struct Node* head, int caseId)
 
 void deleteCase(struct Node** head, int caseId)
 {
-    struct Node* temp = *head;
+    struct Node* temp;
     struct Node* prev = NULL;
 
-    if (*head == NULL)
+    if (head == NULL || *head == NULL)
     {
         printf("\nNo cases available.\n");
         return;
     }
 
+    temp = *head;
+
     if (temp->data.caseId == caseId)
     {
         *head = temp->next;
         free(temp);
-
-        printf("\nCase deleted successfully!\n");
+        printf("\nCase deleted from linked list.\n");
         return;
     }
 
@@ -106,39 +114,38 @@ void deleteCase(struct Node** head, int caseId)
 
     if (temp == NULL)
     {
-        printf("\nCase not found!\n");
+        printf("\nCase not found in linked list.\n");
         return;
     }
 
     prev->next = temp->next;
     free(temp);
 
-    printf("\nCase deleted successfully!\n");
+    printf("\nCase deleted from linked list.\n");
 }
 
 void updateCaseStatus(struct Node* head, int caseId)
 {
-    struct Node* temp = head;
+    struct Node* temp = searchCase(head, caseId);
     char newStatus[30];
 
-    while (temp != NULL)
+    if (temp == NULL)
     {
-        if (temp->data.caseId == caseId)
-        {
-            printf("\nCurrent Status: %s\n", temp->data.status);
-
-            printf("Enter New Status: ");
-            scanf(" %[^\n]", newStatus);
-
-            snprintf(temp->data.status, sizeof(temp->data.status),
-                     "%s", newStatus);
-
-            printf("\nCase status updated successfully!\n");
-            return;
-        }
-
-        temp = temp->next;
+        printf("\nCase not found!\n");
+        return;
     }
 
-    printf("\nCase not found!\n");
+    printf("\nCurrent Status: %s\n", temp->data.status);
+    printf("Enter New Status: ");
+
+    if (scanf(" %29[^\n]", newStatus) != 1)
+    {
+        printf("\nInvalid status.\n");
+        return;
+    }
+
+    snprintf(temp->data.status, sizeof(temp->data.status),
+             "%s", newStatus);
+
+    printf("\nCase status updated in linked list.\n");
 }
