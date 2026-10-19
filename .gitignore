@@ -1,0 +1,10 @@
+build/
+*.exe
+*.obj
+*.bak
+*.dll
+*.lib
+*.a
+.vscode/
+.env
+__pycache__/
