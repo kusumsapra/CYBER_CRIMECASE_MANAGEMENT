@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdlib>
 
 #include "database.h"
 
@@ -21,11 +22,16 @@ bool Database::connect()
 {
     try
     {
+        const char* host = std::getenv("MYSQL_HOST");
+        const char* portText = std::getenv("MYSQL_X_PORT");
+        const char* user = std::getenv("MYSQL_USER");
+        const char* password = std::getenv("MYSQL_PASSWORD");
+        const char* port = portText ? portText : "33060";
         session = new mysqlx::Session(
-            "localhost",
-            33060,
-            "root",
-            "1234"
+            host ? host : "localhost",
+            std::atoi(port),
+            user ? user : "cybercrime_app",
+            password ? password : ""
         );
 
         mysqlx::Schema db =
@@ -98,16 +104,14 @@ bool Database::addCase(
             "victim_name",
             "crime_type",
             "priority",
-            "status",
-            "officer_id"
+            "status"
         )
         .values(
             caseObject.getCaseId(),
             caseObject.getVictimName(),
             caseObject.getCrimeType(),
             caseObject.getPriority(),
-            caseObject.getStatus(),
-            1
+            caseObject.getStatus()
         )
         .execute();
 

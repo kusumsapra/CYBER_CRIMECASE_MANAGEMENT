@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string>
 #include <exception>
+#include <cstdlib>
 
 static Database database;
 static bool connected = false;
@@ -33,11 +34,15 @@ int db_initialize(void)
             return 0;
         }
 
+        const char* host = std::getenv("MYSQL_HOST");
+        const char* portText = std::getenv("MYSQL_X_PORT");
+        const char* user = std::getenv("MYSQL_USER");
+        const char* password = std::getenv("MYSQL_PASSWORD");
         loaderSession = new mysqlx::Session(
-            "localhost",
-            33060,
-            "root",
-            "1234"
+            host ? host : "localhost",
+            std::atoi(portText ? portText : "33060"),
+            user ? user : "cybercrime_app",
+            password ? password : ""
         );
 
         // Explicitly select the project database.

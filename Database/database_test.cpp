@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdlib>
 #include <mysqlx/xdevapi.h>
 
 using namespace std;
@@ -10,12 +11,12 @@ int main()
     {
         cout << "Connecting to MySQL..." << endl;
 
-        Session session(
-            "localhost",
-            33060,
-            "root",
-            "1234"
-        );
+        const char* host = std::getenv("MYSQL_HOST");
+        const char* portText = std::getenv("MYSQL_X_PORT");
+        const char* user = std::getenv("MYSQL_USER");
+        const char* password = std::getenv("MYSQL_PASSWORD");
+        Session session(host ? host : "localhost", std::atoi(portText ? portText : "33060"),
+                        user ? user : "cybercrime_app", password ? password : "");
 
         cout << "Connected to MySQL successfully!" << endl;
 
