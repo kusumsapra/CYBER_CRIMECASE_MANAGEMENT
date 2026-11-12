@@ -1,10 +1,33 @@
+# Build outputs
 build/
 *.exe
 *.obj
-*.bak
+*.o
 *.dll
 *.lib
 *.a
-.vscode/
-.env
+*.def
+*.bak
+
+# Python
+venv/
+.venv/
 __pycache__/
+*.py[cod]
+
+# Node
+node_modules/
+dist/
+
+# Secrets and local configuration
+.env
+*.log
+.vscode/
+
+# Environment files and secrets
+.env
+.env.*
+!.env.example
+
+# Uploaded files
+uploads/

@@ -1,25 +1,35 @@
-Project Title: Cyber Crime Case Management System
-Brief Description: The Cyber Crime Case Management System is a C/C++-based project designed to manage cybercrime cases efficiently. 
-It uses data structures such as linked lists, queues, priority queues, stacks, and hash tables to organize case records, prioritize cases, maintain investigation history, and support faster searching. 
-The system also uses MySQL for database management and provides modules for user management, case management, evidence management, officer management, 
-and investigation tracking.
-Technologies:
- C
- C++
- MySQL 8.0
- Data Structures and Algorithms (DSA)
- Object-Oriented Programming (OOP)
- MySQL Connector/C++
-Tools
- Visual Studio Code (VS Code)
- Microsoft Visual Studio Build Tools 2022 (MSVC)
- MySQL Workbench
- Git
- GitHub
- Current Progress
- Implemented core modules for user management, case management, evidence management, officer management, and investigation tracking.
- Implemented data structures including linked lists, queues, priority queues, stacks, and hash tables.
- Developed C++ classes using Object-Oriented Programming (OOP) concepts.
- Integrated MySQL 8.0 for database management and CRUD operations.
- Developed functionality for officer assignment, evidence handling, investigation records, and report generation.
- Core terminal-based functionality is available for demonstration.
+# Cyber Crime Case Management System
+
+A combined academic project demonstrating **C data structures**, **C++ object-oriented programming**, **MySQL persistence**, and a **React + FastAPI web application**.
+
+## Project modules
+
+| Layer | Technology | Responsibility |
+|---|---|---|
+| Terminal application | C | Linked list, FIFO queue, priority queue, stack, hash table, console workflow |
+| Domain model | C++ | Case, Evidence, Investigation, Officer and User classes |
+| Database layer | MySQL | Persistent cases, evidence, officers, investigation history and reports |
+| Language bridge | C ABI + C++ | Allows the C menu to call C++ database functions |
+| Web API | FastAPI + Python | Authenticated REST endpoints and database access |
+| Web UI | React + Vite | Sentinel dashboard and record management interface |
+
+## Main features
+- Case create, list, search, update and delete (API and terminal where supported).
+- Evidence register, case association and status updates.
+- Officer directory and availability management.
+- Investigation activity log and report records.
+- Dashboard counts and recent cases.
+- JWT login for the web dashboard.
+- MySQL shared persistence between terminal and web API.
+
+## Start here
+Read [`docs/WINDOWS_SETUP.md`](docs/WINDOWS_SETUP.md) for the complete Windows installation, database setup, administrator creation and run commands.
+
+- SQL schema: `database/schema.sql`
+- Backend: `web/backend/`
+- Frontend: `web/frontend/`
+- Existing C/C++ terminal source: root folders `C_Module/`, `Queue/`, `PriorityQueue/`, `Stack/`, `HashTable/`, `CPP_Module/`, `Database/`
+- Windows launch scripts: `scripts/`
+
+## Important
+This is an academic prototype, not a production law-enforcement system. Use synthetic test data. Add formal authorization, audit trails, secure password lifecycle, evidence integrity/chain-of-custody, backups, HTTPS and security testing before any real deployment.
